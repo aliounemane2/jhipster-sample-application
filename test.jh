@@ -1,0 +1,498 @@
+entity TypeOperation {
+    libelle String,
+}
+
+entity CompteSchema {
+    codeCompte String,
+    libelle String,
+    valeur String,
+    modeCalcul SCHEMAENUM,
+    status Boolean,
+}
+
+entity MontantSchema {
+    codeMontant String,
+    libelle String,
+    modeCalcul MONTANTENUM,
+    valeur String,
+    status Boolean,
+}
+
+enum SCHEMAENUM {
+    SAISIE,
+    AUTOMATIQUE
+}
+
+enum LibelleENUM{
+    SAISIE,
+    AUTOMATIQUE,
+    MIXTE
+}
+entity LibelleSchema {
+    codeLibelle String,
+    libelle String,
+    mode LibelleENUM,
+}
+
+entity StructureLibelle {
+    debut String,
+    fin String,
+
+}
+enum FormuleCalcul {
+    SAISIE,
+    CHAMP, 
+    FORMULE, 
+    REQUETE
+}
+
+entity Requete {
+	codeRequete String,
+    requete Blob,
+}
+
+entity Formule {
+    codeFormule String,
+    libelle String,
+    opeGauche String,
+    typeOpeGauche FormuleCalcul,
+    valeurOpeGauche String,
+    operDroite String,
+    typeOpeDroite FormuleCalcul,
+    valeurOpeDroite String,
+    operateur String,
+}
+
+enum TYPE {
+    FRAIS,
+    COMMISSION
+}
+entity Partenaire{
+    nom String,
+}
+
+enum VISIBLE{
+    GENERAL, 
+SPECIFIQUE
+}
+
+enum MODECALCUL{
+	FIXE, 
+    FORMULE, 
+    BAREME, 
+    CHAMP
+}
+entity NatureCommission {
+    codeNatureCommission String,
+    libelle String,
+    type TYPE,
+    modeCalcul MODECALCUL,
+    codeVisible VISIBLE,
+    valeur String,
+}
+// FIXE, FORMULE, BAREME, CHAMP DE LA BASE
+
+entity ReglePartage {
+    codePartage String,
+}
+
+// entity Promotion {
+//  libelle String,
+//    dateDebut Instant,
+//    dateFin Instant,
+//      pourcentage BigDecimal,
+//    isActif Boolean,
+// }
+
+entity StoryBareme {
+  logContent String required,
+  dateCreation Instant,
+  dateModification Instant,
+  creePar String,
+  modifiePar String,
+  status Status
+}
+
+enum BaremeTypeValeur{
+    MONTANT, TAUX
+}
+
+enum MethodeCalculBareme{
+	FLAT, PALIER
+}
+
+entity Bareme {
+    codeBareme String,
+    libelle String,
+    typeValeur BaremeTypeValeur,
+    valeurReference String,
+    plancher BigDecimal,
+    plafond BigDecimal,
+    methodeCalcul MethodeCalculBareme,
+}
+
+enum DetailBaremeTypeValeur{
+	FIXE, TAUX
+}
+
+entity DetailBareme {
+    plancher BigDecimal,
+    plafond BigDecimal,
+    valeur String,
+    typeValeur DetailBaremeTypeValeur,
+}
+
+entity Devise {
+    libelle String,
+}
+
+enum NatureCompte {
+    COURANT,
+    WALLET,
+    EPARGNE,
+    DAT,
+    CREDIT,
+    CAUTION,
+    GARANTIE,
+    AUTRES
+}
+
+enum SensStandard{
+    DEBIT,
+    CREDIT,
+    INDIFFERENT
+}
+
+entity ChapitreComptable{
+    code String,
+    libelle String,
+    sens SensStandard,
+    isCompteClient Boolean,
+    isBilan Boolean,
+}
+
+entity TypeCompte {
+    codeTypeCompte String,
+    libelle String,
+    nature NatureCompte,
+    isInterne Boolean,
+    sens SensStandard,
+    // soldeMinimum BigDecimal,
+    // montantPlafondRetrait BigDecimal,
+    // dateCree Instant,
+    //dateModif Instant,
+}
+
+entity Compte {
+    numero String,
+    libelle String,
+    status StatusCompte,
+    dateOuverture Instant,
+}
+
+enum StatusCompte{
+    OUVERT, FERMER,
+    EN_ATTENTE, BLOQUER
+}
+
+entity UserYewou {
+}
+
+enum Status{
+  ENABLE,
+  DISABLE,
+  PENDING
+}
+
+entity StoryOperation{
+  logContent String required,
+  dateCreation Instant,
+  dateModification Instant,
+  creePar String,
+  modifiePar String,
+  status Status
+}
+
+entity StoryCaisse {
+  logContent String required,
+  dateCreation Instant,
+  dateModification Instant,
+  creePar String,
+  modifiePar String,
+  status Status
+}
+
+entity TypeCaisse {
+    libelle String,
+    isBilletage Boolean,
+    isCaissePrincipale Boolean,
+    arreterManuel Boolean,
+}
+
+entity BilletageCaisse {
+	dateCreation Instant,
+}
+
+entity BilletageArreterCaisse {
+}
+
+enum StatusCaisse {
+    IN_PROGRESS,
+    FINISH
+}
+
+entity Caisse {
+    libelle String unique required,
+    code String,
+    dateCreation Instant,
+    // type TypeCaisse,
+    status StatusCaisse,
+}
+
+entity SchemaComptable {
+    // numeroCompte String,
+    // montant BigDecimal,
+    sens Sens,
+    dateValeur String,
+    // libelle String,
+}
+
+entity Operation {
+    libelle String,
+    soldeAvant BigDecimal,
+    soldeApres BigDecimal,
+    montant BigDecimal,
+    dateCreation Instant,
+    dateValidation Instant,
+    dateValeur Instant,
+    reference String,
+    sens Sens,
+    motif String,
+    status StatusOperation,
+    // commissionMvt Boolean,
+}
+enum StatusOperation {
+    VALIDER,
+    EN_ATTENTE,
+    REJETER
+}
+
+entity CanalOperation {
+    libelle String,
+    canalId BigDecimal,
+}
+
+entity SituationCaisse {
+    montantTechnique BigDecimal,
+    montantInventaire BigDecimal,
+    motif String
+    dateCreation Instant,
+    creePar String,
+}
+
+enum Sens {
+    DEBIT,
+    CREDIT
+}
+
+
+enum MONTANTENUM{
+    SAISIE,
+    AUTOMATIQUE,
+    CALCULE,
+    BAREME,
+    FONCTION
+}
+
+// relationship ManyToMany {
+//    MontantSchema{Schema} to Schema,
+//  CompteSchema{Schema} to Schema,
+//    LibelleSchema{Schema} to Schema,
+// }
+
+entity Cours{
+	coursAchat String,
+    coursVente String,
+    coursAutres String,
+}
+
+enum TypeEntite {
+	FILIALE, AGENCE, PARTENAIRE
+}
+
+entity Entites{
+	codeEntite String required unique,
+    isFiliale Integer,
+    isAgence Integer,
+    isPointVente Integer,
+}
+
+// entity Filiale{
+//	codeFiliale String  required unique,
+//	nom String,
+//    ville String,
+//    adresse String,
+// }
+
+// entity Agence{
+//	codeAgence String required unique,
+//    nom String,
+//    ville String,
+//    adresse String,
+//    telephone String,
+// }
+
+// entity PointService{
+//	codePointService  String required unique,
+//    nom String
+// }
+
+entity Coupure {
+	codeCoupure String required unique,
+    libelle String,
+    valeur BigDecimal,
+    image String,
+}
+
+// entity ChaineDeDistribution {
+//	idEntites Long,
+//    idFiliale Long,
+//    idAgence Long,
+//    idPointService Long,
+// }
+
+relationship OneToMany {
+
+    BilletageArreterCaisse{Caisse} to Caisse,
+    BilletageCaisse{Caisse} to Caisse,
+
+
+    Bareme{StoryBareme} to StoryBareme,
+    Bareme{DetailBareme} to DetailBareme,
+    Bareme{MontantSchema} to MontantSchema,
+    Bareme{NatureCommission} to NatureCommission,
+
+
+    Compte{Caisse} to Caisse,
+    
+    
+    Caisse{StoryCaisse} to StoryCaisse,
+    Caisse{SituationCaisse} to SituationCaisse, // Vacation
+  
+    
+    Coupure{Caisse} to Caisse,
+    Coupure{BilletageCaisse} to BilletageCaisse,
+    Coupure{BilletageArreterCaisse} to BilletageArreterCaisse,
+    
+    CanalOperation{Operation} to Operation,
+
+
+    ChapitreComptable{Compte} to Compte,
+    // à voir  
+    ChapitreComptable{TypeCompte} to TypeCompte,
+    CompteSchema{SchemaComptable} to SchemaComptable,
+
+    
+    Devise{Caisse} to Caisse,
+    Devise{Compte} to Compte,
+    Devise{Operation} to Operation,
+    Devise{Coupure} to Coupure, // Type de Monnaie
+    Cours{Devise} to Devise,
+
+    DetailBareme{MontantSchema} to MontantSchema,
+
+
+    Formule{MontantSchema} to MontantSchema,
+
+
+    MontantSchema{SchemaComptable} to SchemaComptable,
+
+
+    NatureCommission{ReglePartage} to ReglePartage,
+    NatureCommission{MontantSchema} to MontantSchema,
+
+
+    LibelleSchema{SchemaComptable} to SchemaComptable,
+
+
+    Operation{StoryOperation} to StoryOperation,
+    
+        
+    Partenaire{NatureCommission} to NatureCommission,
+    // à voir
+	Partenaire{ReglePartage} to ReglePartage,
+    
+    
+    
+    ReglePartage{SchemaComptable} to SchemaComptable,
+    Requete{Formule} to Formule,
+
+
+    StructureLibelle{LibelleSchema} to LibelleSchema,
+
+    
+    TypeOperation{Operation} to Operation,
+    TypeOperation{SchemaComptable} to SchemaComptable,
+    TypeOperation{Bareme} to Bareme,
+    TypeOperation{NatureCommission} to NatureCommission,
+
+    
+    TypeCaisse{Caisse} to Caisse,
+    
+    TypeCompte{Compte} to Compte,
+    
+    
+    UserYewou{Caisse} to Caisse,
+    UserYewou{Operation} to Operation,
+    
+    
+    // A décommenter
+    Entites{UserYewou} to UserYewou,
+    Entites{TypeCompte} to TypeCompte,
+    Entites{Compte} to Compte,
+    Entites{TypeOperation} to TypeOperation,
+    Entites{TypeCaisse} to TypeCaisse,
+    Entites{NatureCommission} to NatureCommission,
+    Entites{Devise} to Devise,
+    Entites{Caisse} to Caisse,
+    Entites{Bareme} to Bareme,
+    Entites{Operation} to Operation,
+    Entites{SchemaComptable} to SchemaComptable,
+    Entites{LibelleSchema} to LibelleSchema,
+  	Entites{ReglePartage} to ReglePartage,
+    Entites{Requete} to Requete,
+    Entites{MontantSchema} to MontantSchema,
+    Entites{Coupure} to Coupure,
+    Entites{ChapitreComptable} to ChapitreComptable,
+    Entites{SituationCaisse} to SituationCaisse,
+    Entites{BilletageCaisse} to BilletageCaisse,
+    Entites{BilletageArreterCaisse} to BilletageArreterCaisse,
+    Entites{DetailBareme} to DetailBareme,
+    Entites{Partenaire} to Partenaire,
+    Entites{ConfigurationCaisse} to ConfigurationCaisse,
+    Entites{CanalOperation} to CanalOperation,
+    Entites{StoryBareme} to StoryBareme,
+    Entites{StoryOperation} to StoryOperation,
+   	Entites{Formule} to Formule,
+    Entites{Cours} to Cours,
+
+    // Type de monaie == COUPURE
+}
+
+relationship ManyToMany {
+    TypeOperation{userYewou} to UserYewou{typeOperation},
+    Caisse{operation} to Operation{caisse},
+    Operation{compte} to Compte{operation},
+    TypeOperation{caisse} to Caisse{typeOperation},
+    // Formule{Formule} to Formule,
+}
+
+
+paginate * with pagination
+dto * with mapstruct
+service all with serviceImpl
+// search * with elasticsearch
+
+// microservice * with caisse
+
+//  jhipster import-jdl ./../diagram/parametrage-jdl.jh
